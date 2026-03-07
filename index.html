@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zaproszenie Ślubne</title>
+  <style>
+    :root {
+      --bg: #faf7f3;
+      --card: #ffffff;
+      --text: #2f2a27;
+      --muted: #6f675f;
+      --accent: #b08d57;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --radius: 18px;
+      --maxw: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(92%, var(--maxw));
+      margin-inline: auto;
+    }
+
+    /* NAV - przeniesiony na górę strony */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      background: rgba(250, 247, 243, 0.85);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .nav-inner {
+      width: min(92%, var(--maxw));
+      margin-inline: auto;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: none;
+    }
+
+    .nav-inner::-webkit-scrollbar { display: none; }
+
+    .nav a {
+      white-space: nowrap;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .nav a:hover {
+      color: var(--text);
+      border-color: rgba(0,0,0,0.15);
+    }
+
+    /* HERO */
+    .hero {
+      padding: 20px 0 10px;
+      scroll-margin-top: 80px; /* żeby początek hero nie chował się pod paskiem */
+    }
+
+    .hero-card {
+      background: var(--card);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-image {
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 0;
+    }
+
+    .hero-content {
+      padding: 34px 30px 38px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.15;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    /* SEKCJE */
+    .section {
+      padding: 26px 0;
+      scroll-margin-top: 80px; /* żeby sekcja nie chowała się pod paskiem */
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    }
+
+    .lead {
+      color: var(--muted);
+      margin-top: 0;
+    }
+
+    /* Sekcje z obrazkiem + treścią */
+    .media-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .media-grid .image-wrap img {
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .info-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .info-list li + li {
+      margin-top: 6px;
+    }
+
+    /* Plan atrakcji */
+    .timeline {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #fcfbf9;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .timeline-time {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Przycisk */
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(176, 141, 87, 0.28);
+    }
+
+    .button:hover {
+      filter: brightness(0.96);
+    }
+
+    .footer {
+      padding: 10px 0 30px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Desktop */
+    @media (min-width: 800px) {
+      .hero-content {
+        padding: 30px 32px 34px;
+      }
+
+      .card {
+        padding: 22px;
+      }
+
+      .media-grid {
+        grid-template-columns: 1.05fr 1fr;
+        gap: 22px;
+      }
+
+      /* Co druga sekcja odwrotnie (ładniejszy układ) */
+      .media-grid.reverse .image-wrap {
+        order: 2;
+      }
+      .media-grid.reverse .text-wrap {
+        order: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV przeniesiony nad header -->
+  <nav class="nav" aria-label="Nawigacja po stronie">
+    <div class="nav-inner">
+      <a href="#top">Zaproszenie</a>
+      <a href="#slub">Miejsce ślubu</a>
+      <a href="#wesele">Miejsce wesela</a>
+      <a href="#atrakcje">Plan atrakcji</a>
+      <a href="#prezenty">Prezenty</a>
+    </div>
+  </nav>
+
+  <header id="top" class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <!-- GŁÓWNE ZDJĘCIE PARY -->
+        <img class="hero-image" src="images/para-glowna.jpg" alt="Para Młoda" />
+        <div class="hero-content">
+          <h1>Marta i Michał</h1>
+          <p>Zapraszamy na nasz ślub • 29 maja 2026</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. ZAPROSZENIE -->
+    <section id="zaproszenie" class="section">
+      <div class="container">
+        <div class="card">
+          <h2>Zaproszenie</h2>
+          <p class="lead">
+            Z wielką radością zapraszamy Was do wspólnego świętowania naszego ślubu i wesela.
+            Będzie nam ogromnie miło spędzić ten wyjątkowy dzień razem z Wami.
+          </p>
+          <p>
+            Prosimy o potwierdzenie przybycia do <strong>15 marca 2026</strong>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. MIEJSCE ŚLUBU -->
+    <section id="slub" class="section">
+      <div class="container">
+        <div class="card">
+          <div class="media-grid">
+            <div class="image-wrap">
+              <!-- ZDJĘCIE PRZY MIEJSCU ŚLUBU -->
+              <img src="images/slub.jpg" alt="Miejsce ślubu" />
+            </div>
+            <div class="text-wrap">
+              <h2>Miejsce ślubu</h2>
+              <p class="lead">Ceremonia zaślubin</p>
+              <ul class="info-list">
+                <li><strong>Pałac Ślubów:</strong> sala ślubów na II piętrze</li>
+                <li><strong>Adres:</strong> Plac Zamkowy 6, Warszawa</li>
+                <li><strong>Godzina:</strong> 15:00</li>
+                <li>
+                  <strong>Mapa:</strong>
+                  <a href="https://www.google.com/maps/place/Pa%C5%82ac+%C5%9Alub%C3%B3w/@52.2486298,21.0120393,17z/data=!3m2!4b1!5s0x471ecc661e698411:0x5296ce51ad2b83e5!4m6!3m5!1s0x471ecc68a5f7f8e5:0x83c807d3f2f4fd5e!8m2!3d52.2486265!4d21.0146142!16s%2Fg%2F11bbyh73hd?entry=ttu&g_ep=EgoyMDI2MDIxOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">
+                    Zobacz dojazd
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. MIEJSCE WESELA -->
+    <section id="wesele" class="section">
+      <div class="container">
+        <div class="card">
+          <div class="media-grid reverse">
+            <div class="image-wrap">
+              <!-- ZDJĘCIE PRZY MIEJSCU WESELA -->
+              <img src="images/wesele.jpg" alt="Miejsce wesela" />
+            </div>
+            <div class="text-wrap">
+              <h2>Miejsce wesela</h2>
+              <p class="lead">Przyjęcie weselne</p>
+              <ul class="info-list">
+                <li><strong>Miejsce:</strong> Hotel Trylogia - Sala rycerska</li>
+                <li><strong>Adres:</strong> ul. Poniatowskiego 46, Zielonka</li>
+                <li><strong>Start przyjęcia:</strong> 18:00</li>
+                <li>
+                  <strong>Mapa:</strong>
+                  <a href="https://www.google.com/maps/place/Hotel+Trylogia/@52.3128709,21.1867461,17z/data=!3m1!4b1!4m9!3m8!1s0x471ed02239a38143:0xb3506b69b5a7a9b!5m2!4m1!1i2!8m2!3d52.3128676!4d21.189321!16s%2Fg%2F1tcvgvgr?entry=ttu&g_ep=EgoyMDI2MDIxOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">
+                    Zobacz dojazd
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. PLAN ATRAKCJI -->
+    <section id="atrakcje" class="section">
+      <div class="container">
+        <div class="card">
+          <h2>Plan atrakcji</h2>
+          <p class="lead">Orientacyjny harmonogram dnia</p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">15:00</div>
+              <div>Ceremonia ślubna</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">17:00</div>
+              <div>Rozpoczęcie wesela i obiad</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">19:00</div>
+              <div>Pierwszy taniec</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">20:30</div>
+              <div>Tort weselny</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">22:00</div>
+              <div>Zabawy / atrakcje wieczoru</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PREZENTY / EXCEL -->
+    <section id="prezenty" class="section">
+      <div class="container">
+        <div class="card">
+          <h2>Lista prezentów</h2>
+          <p class="lead">
+            Dla wygody przygotowaliśmy listę prezentów w arkuszu.
+          </p>
+          <p>
+            Kliknij poniżej, aby otworzyć listę:
+          </p>
+          <a class="button" href="https://docs.google.com/spreadsheets/u/3/d/1ES2WPivVZTU56JNjy50BO7P0so50JNzbEXZG9Kv63jc/edit?usp=sharing&pli=1&authuser=3" target="_blank" rel="noopener">
+            Otwórz listę prezentów (Excel)
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      Z miłością • Marta i Michał
+    </div>
+  </footer>
+
+</body>
+</html>
